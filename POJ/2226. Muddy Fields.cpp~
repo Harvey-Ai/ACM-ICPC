@@ -1,0 +1,84 @@
+#include <iostream>
+#include <cstring>
+#include <string>
+using namespace std;
+
+int graph[2500][2500];
+int visited[2500];
+int matchX[2500], matchY[2500];
+int nodeNum;
+
+bool find(int x)
+{
+	for(int i = 0;i < nodeNum;i++)
+	{
+		if (graph[x][i] && !visited[i])
+		{
+			visited[i] = 1;
+			if (matchY[i] == -1 || find(matchY[i]))
+			{
+				matchY[i] = x;
+				matchX[x] = i;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+int maxMatch()
+{
+	int res = 0;
+	for(int i = 0;i < nodeNum;i++)
+		matchX[i] = matchY[i] = -1;
+
+	for(int i = 0;i < nodeNum;i++)
+	{
+		memset(visited, 0, sizeof(visited));
+		if (find(i))
+			res++;
+	}
+	return res;
+}
+
+int main()
+{
+	int r, c;
+	cin >> r >> c;
+
+	string grassMap[55];
+	for(int i = 0;i < r;i++)
+		cin >> grassMap[i];
+
+	memset(graph, 0, sizeof(graph));
+	int vIndex[55];
+    for(int i = 0;i < c;i++)
+        vIndex[i] = i;
+    int rNum = 0, cNum = c;
+    for(int i = 0;i < r;i++)
+    {
+        int flag = 0;
+        for(int j = 0;j < c;j++)
+        {
+			if (grassMap[i][j] == '*')
+            {
+                if (!flag)
+                {
+                    flag = 1;
+                    rNum++;
+                }
+                graph[rNum - 1][vIndex[j]] = 1;
+            }
+            else
+            {
+                flag = 0;
+                vIndex[j] = cNum++;
+            }
+        }
+    }
+				
+
+	nodeNum = max(rNum, cNum);
+	cout << maxMatch() << endl;
+	return 0;
+}

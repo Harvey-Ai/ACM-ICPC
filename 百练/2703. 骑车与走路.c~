@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main()
+{
+	double bb, ww;
+	int n;
+	int dis;
+	scanf("%d", &n);
+	
+	while(n--)
+	{
+		scanf("%d", &dis);
+		bb = 27 + 23 + dis / 3.0;
+		ww = dis / 1.2;
+		if (bb < ww)
+			printf("Bike\n");
+		else if (ww < bb)
+			printf("Walk\n");
+		else
+			printf("All\n");
+	}
+	return 0;
+}

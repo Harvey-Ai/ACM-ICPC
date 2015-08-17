@@ -1,0 +1,88 @@
+#include <iostream>
+using namespace std;
+/*
+int res;
+int col1, col2;
+int cl;
+int dp[50];
+
+int dfs()
+{
+	//cout << col1 << " " << col2 << endl;
+	if (col1 == 0 && col2 == 0)
+	{
+		res++;
+		return 0;
+	}
+	if (col1 > col2)
+	{
+		col1--;
+		dfs();
+		col1++;
+		if (col2)
+		{
+			col2--;
+			dfs();
+			col2++;
+		}
+	}
+	else if (col1 == col2)
+	{
+		if (col1 == cl)
+		{
+			col2--;
+			dfs();
+			col2++;
+		}
+		else
+			res += dp[col1];
+	}
+}
+*/
+int main()
+{
+	int n;
+	/*
+	dp[0] = 0;
+	for(int i = 1;i < 21;i++)
+	{
+		res = 0;
+		col1 = col2 = i;
+		cl = i;
+		dfs();
+		dp[i] = res;
+	}
+	for(int i = 1;i < 21;i++)
+		cout << dp[i] << endl;
+		*/
+
+n - 1;
+n - 2;
+
+	int dp[40] = {
+
+1,
+2,
+5,
+14,
+42,
+132,
+429,
+1430,
+4862,
+16796,
+58786,
+208012,
+742900,
+2674440,
+9694845,
+35357670,
+129644790,
+477638700,
+1767263190,
+	};
+	while(cin >> n)
+		cout << dp[n / 2] << endl;
+
+	return 0;
+}

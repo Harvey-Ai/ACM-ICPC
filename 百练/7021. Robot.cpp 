@@ -1,0 +1,143 @@
+/*
+描述
+There is a rectangular field in the lab of Institution of Advanced Robotic Technology.
+
+Many robots are about to release to this field one after another. They always enter the field from the upper left cell and leave from the lower right cell. In between, they can move vertically or horizontally to an adjacent cell on each step. At any time, there is at most one robot on the field.
+
+Robots can be divided into two types: Type A and Type B. During the movement, a robot will write down its type mark (A or B) in each cell on its track, which will cover all previous marks in the same cell. Notice that there is no mark on the field at the beginning.
+
+Here is an example: initially there is no mark on the field (Figure 1); first, a robot of type A crosses the field from top-left to bottom right (Figure 2). After that, a robot of type B crosses and its tracks are partially covering the A’s (Figure 3).
+
+                    .....          AAAA.          BBAA.
+                    .....          ..AA.          .BBBB
+                    .....          ...A.          ...AB
+                    .....          .AAA.          .ABBB
+                    .....          ..AAA          ..BBB
+                     (1)            (2)            (3)
+You are given the marks on the field after all robots have crossed. Write a program to determine the minimal possible number of released robots.
+
+
+
+输入
+The first line contains an integer T (1 ≤ T ≤ 10) -- the number of test cases.
+
+For each test case:
+The first line contains two integers h and w, indicates the height and width of the field. 1 ≤ h, w ≤ 4 000.
+Then follows h lines, each line contains w characters: each character indicates the mark in the corresponding cell. A dot (“.”) indicates that there is no mark on this cell.
+There is at least one mark on the field.
+输出
+For each test case, output one integer in a single line -- the minimal number of released robots.
+样例输入
+2
+3 3
+AA.
+.A.
+.AA
+5 8
+AAB.....
+.ABBB...
+.AAAAA..
+..BBBAAB
+.....AAA
+样例输出
+1
+2
+*/
+
+#include <iostream>
+#include <cstring>
+#include <cstdio>
+#include <queue>
+using namespace std;
+
+int dir[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+int h, w;
+char str[4005][4005];
+bool visit[4005][4005];
+
+struct qEle {
+	int x, y;
+
+	qEle(int x, int y) {
+		this->x = x;
+		this->y = y;	
+	}
+};
+
+bool check(int x, int y) {
+	return x >= 0 && x < h && y >= 0 && y < w;
+}
+
+int main() {
+	int T;
+	scanf("%d", &T);
+
+	while(T--) {
+		scanf("%d %d", &h, &w);
+		for(int i = 0;i < h;i++) {
+			scanf("%s", str[i]);
+		}
+
+		if (str[0][0] == '.') {
+			cout << 0 << endl;
+			continue;		
+		}
+
+		char mark = str[0][0];
+		memset(visit, 0, sizeof(visit));
+
+		vector<pair<int, int> > temp;
+		queue<qEle> q;
+		q.push(qEle(0, 0));
+		visit[0][0] = 1;
+		temp.push_back(make_pair(0, 0));
+		while(!q.empty()) {
+			qEle ele = q.front();
+			q.pop();
+
+			for(int i = 0;i < 4;i++) {
+				int px = ele.x + dir[i][0], py = ele.y + dir[i][1];
+				if (check(px, py) && !visit[px][py] && str[px][py] == mark) {
+					q.push(qEle(px, py));
+					visit[px][py] = 1;
+					temp.push_back(make_pair(px, py));
+				}			
+			}
+		}
+		for(int i = 0;i < temp.size();i++) {
+			q.push(qEle(temp[i].first, temp[i].second));		
+		}
+	
+		// cout << q.size() << endl;
+		int res = 0;
+		while(!q.empty()) {
+			vector<pair<int, int> > temp;
+			mark = 'B' - mark + 'A';
+
+			while(!q.empty()) {
+				qEle ele = q.front();
+				q.pop();
+			
+				for(int i = 0;i < 4;i++) {
+					int px = ele.x + dir[i][0], py = ele.y + dir[i][1];
+					if (check(px, py) && !visit[px][py] && str[px][py] == mark) {
+						visit[px][py] = 1;
+						q.push(qEle(px, py));
+						temp.push_back(make_pair(px, py));
+					}
+				}
+			}
+
+			for(int i = 0;i < temp.size();i++) {
+				q.push(qEle(temp[i].first, temp[i].second));
+			}
+			res++;
+		}
+
+		printf("%d\n", res);
+
+	}
+
+	return 0;
+}

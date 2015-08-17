@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#define N 5005
+
+struct bigInt
+{
+	int size;
+	int res[N];
+}
+
+double sell[N];
+int flag[N];
+int arr[N];
+int main()
+{
+	int i, j, k;
+	double max;
+	int n;
+	char str[10];
+	scanf("%d", &n);
+
+	for(i = 0;i < n;i++)
+	{
+		scanf("%s %d", str, &arr[i]);
+		if (str[0] == 'w')
+			flag[i] = 0;
+		else
+			flag[i] = 1;
+	}
+
+	memset(sell, 0, sizeof(sell));
+
+	for(i = 0;i < n;i++)
+	{
+		if (flag[i] == 0)
+			continue;
+
+		for(j = i - 1;j >= 0;j--)
+			if (flag[j] == 0 && arr[j] == arr[i])
+				break;
+
+		if (j >= 0)
+		{
+			max = 0;
+			for(k = 0;k < j;k++)
+				if (sell[k] > max)
+					max = sell[k];
+			sell[i] = max + pow(2, (double)arr[i]);
+		}
+	}
+
+	max = 0;
+	for(i = 0;i < n;i++)
+		if (max < sell[i])
+			max = sell[i];
+
+	printf("%.0lf\n", max);
+	return 0;
+}

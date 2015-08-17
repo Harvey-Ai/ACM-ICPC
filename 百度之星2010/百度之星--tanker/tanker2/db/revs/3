@@ -1,0 +1,55 @@
+PLAIN
+K 6
+AI.cpp
+V 17
+file 1.0.r2/12916
+K 8
+Makefile
+V 17
+file 2.0.r1/79987
+K 6
+Tank.h
+V 17
+file 3.0.r1/78859
+K 10
+WS2_32.Lib
+V 17
+file 4.0.r1/79048
+K 13
+ai_devcpp.dev
+V 17
+file 5.0.r1/79609
+K 8
+main.cpp
+V 17
+file 6.0.r1/79483
+K 9
+process.c
+V 17
+file 7.0.r2/12101
+K 9
+process.h
+V 17
+file 8.0.r2/12484
+K 9
+utility.c
+V 17
+file 9.0.r2/12627
+K 9
+utility.h
+V 17
+file a.0.r2/12772
+END
+ENDREP
+id: 0.0.r3/386
+type: dir
+pred: 0.0.r2/13475
+count: 3
+text: 3 0 373 373 ebd28c8e13021027258a698554cbdb63
+cpath: /
+copyroot: 0 /
+
+b.0.r2/12308 delete false false /a.exe
+
+
+386 514

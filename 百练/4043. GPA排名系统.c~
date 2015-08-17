@@ -1,0 +1,48 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+using namespace std;
+
+int main()
+{
+	int m, n;
+	int i, j;
+	string lession[100];
+	int g[100][100];
+	int student[100];
+	int studentLession[100];
+
+	cin >> m >> n;
+	for(i = 0;i < n;i++)
+		cin >> lession[i];
+
+	for(i = 0;i < m;i++)
+	{
+		student[i] = 0;
+		studentLession[i] = 0;
+		for(j = 0;j < n;j++)
+		{
+			cin >> g[i][j];
+			if (g[i][j])
+				studentLession[i]++;
+			student[i] += g[i][j];
+		}
+	}
+
+	for(j = 0;j < n;j++)
+	{
+		int cnt = 0;
+		int cc = 0;
+		int studentSum = 0, lessionSum = 0;
+		for(i = 0;i < m;i++)
+			if (g[i][j])
+			{
+				studentSum += student[i];
+				lessionSum += g[i][j];
+				cnt += studentLession[i];
+				cc++;
+			}
+		cout << lession[j] << " " << (int)(studentSum / cnt - lessionSum / cc) << endl;
+	}
+	return 0;
+}

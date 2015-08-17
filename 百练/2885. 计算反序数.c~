@@ -1,0 +1,34 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int main()
+{
+	char str[100];
+	int nag = 0;
+	int i;
+	int pos;
+	while(cin >> str)
+	{
+
+	pos = 0;
+	nag = 0;
+	if (str[pos] == '-')
+	{
+		pos++;
+		nag = 1;
+	}
+
+	for(i = strlen(str) - 1;i > pos;i--)
+		if (str[i] != '0')
+			break;
+
+	if (str[pos] != '0' && nag)
+		cout << "-";
+	for(;i >= pos;i--)
+		cout << str[i];
+	cout << endl;
+	}
+	return 0;
+}
+

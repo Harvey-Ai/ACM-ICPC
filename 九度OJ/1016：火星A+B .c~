@@ -1,0 +1,91 @@
+#include <iostream>
+using namespace std;
+
+int quan[100], prime[100];
+char res[100];
+int init()
+{
+	int num, i, j;
+	prime[0] = 2;
+	num = 1;
+	i = 3;
+	while(num < 30)
+	{
+		for(j = 2;j * j <= i;j++)
+			if (i % j == 0)
+				break;
+		if (j * j > i)
+			prime[num++] = i;
+		i++;
+	}
+	quan[0] = 1;
+
+	for(i = 1;i < 30;i++)
+		quan[i] = quan[i - 1] * prime[i - 1];
+}
+
+void covert(int a)
+{
+//	cout << a << endl;
+	int i, j;
+	for(i = 0;i < 30;i++)
+		if (a < quan[i])
+			break;
+
+	i--;
+//	cout << i << endl;
+	for(j = 0;i >= 0;i--)
+	{
+		res[j++] = a / quan[i] + '0';
+		a = a % quan[i];
+	}
+	res[j] = '\0';
+//	cout << res << endl;
+
+	cout << (char)(res[0]);
+	for(i = 1;i < j;i++)
+		cout << "," << (char)(res[i]);
+	cout << endl;
+}
+
+int main()
+{
+	char str1[100], str2[100], ss1[100], ss2[100];
+	int i, j;
+	init();
+
+	while(cin >> str1 >> str2)
+	{
+		if (strcmp(str1, "0") == 0 && strcmp(str2, "0") == 0)
+			break;
+
+		for(i = 0, j = 0;str1[i] != '\0';i++)
+			if (str1[i] != ',')
+				ss1[j++] = str1[i];
+		ss1[j] = '\0';
+
+		for(i = 0, j = 0;str2[i] != '\0';i++)
+			if (str2[i] != ',')
+				ss2[j++] = str2[i];
+		ss2[j] = '\0';
+
+		int num1 = 0;
+		for(j = 1, i = strlen(ss1) - 1;i >= 0;i--,j++)
+		{
+			f
+			num1 += (ss1[i] - '0') * quan[j - 1];
+		}
+
+		int num2 = 0;
+		for(j = 1, i = strlen(ss2) - 1;i >= 0;i--,j++)
+		{
+		//	cout << (ss2[i] - '0') << " " << quan[j - 1] << endl;
+			num2 += (ss2[i] - '0') * quan[j - 1];
+		}
+
+		//cout << num1 << " " << num2 << endl;
+		covert(num1 + num2);
+	//	cout << res << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,18 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main()
+{
+	int a, b, k;
+	while(cin >> a >> b >> k, a || b)
+	{
+		int a1 = a % (int)(pow(10.0, (double)k));
+		int b1 = b % (int)(pow(10.0, (double)k));
+		if (a1 == b1)
+			cout << -1 << endl;
+		else
+			cout << a + b << endl;
+	}
+	return 0;
+}

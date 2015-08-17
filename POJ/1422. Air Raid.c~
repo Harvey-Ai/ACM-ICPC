@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+#define N 130
+
+int g[N][N], q[N], pv[N], ma[N], mb[N];
+int match(int nva, int nvb)     // nva: |X|, nvb: |Y|
+{
+	int i, j, x, qs, qe, res = 0;
+	memset(ma, -1, sizeof(ma));
+	memset(mb, -1, sizeof(mb));
+	for (i = 0; i < nva; i++) { // vertex: 0 ~ n-1
+		qs = qe = 0;
+		for (j = 0; j < nvb; j++) pv[j] = -2;
+		for (j = 0; j < nvb; j++) if (g[i][j]) {
+            pv[j] = -1; q[qe++] = j;
+		}
+		while (qs < qe) {
+			if (-1 == mb[x = q[qs]]) break;
+			for (qs++, j = 0; j < nvb; j++)
+				if(-2 == pv[j] && g[ mb[x] ][j]) {
+					pv[j] = x; q[qe++] = j;
+				}
+		}
+		if (qs == qe) continue;
+		while (pv[x] > -1) {
+			ma[ mb[ pv[x] ] ] = x;
+			mb[x] = mb[ pv[x] ];
+			x = pv[x];
+		}
+		mb[x] = i; ma[i] = x; res++;
+	}
+	return res;
+}
+
+
+int main()
+{
+	int i;
+	int nc, nr;
+	int ncase;
+	int a, b;
+	scanf("%d", &ncase);
+	while(ncase--)
+	{
+		memset(g, 0, sizeof(g));
+		scanf("%d %d", &nc, &nr);
+		for(i = 0;i < nr;i++)
+		{
+			scanf("%d %d", &a, &b);
+			g[a - 1][b - 1] = 1;
+		}
+		printf("%d\n", (nc - match(nc, nc)));
+	}
+	return 0;
+}

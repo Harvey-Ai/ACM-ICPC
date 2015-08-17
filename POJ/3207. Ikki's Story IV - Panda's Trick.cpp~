@@ -1,0 +1,111 @@
+#include <iostream>
+#include <cstdio>
+#include <stack>
+#include <cstring>
+using namespace std;
+
+int graph[1001][1001];
+int nodeNum;
+int checked;
+
+int visited[1005];
+int dfn[1005], low[1005];
+int comp[1005];
+int inStack[1005];
+stack<int> tarjanSt;
+int compTag;
+int dfsTime;
+
+
+void dfs(int p)
+{
+	visited[p] = 1;
+	dfn[p] = low[p] = dfsTime++;
+	tarjanSt.push(p);
+	inStack[p] = 1;
+
+	for(int i = 0;i < nodeNum;i++)
+	{
+		if (graph[p][i])
+		{
+			if (!visited[i])
+			{
+				dfs(i);
+				low[p] = min(low[i], low[p]);
+			}
+			else if (inStack[i])
+				low[p] = min(low[p], dfn[i]);
+		}
+	}
+
+	if (dfn[p] == low[p])
+	{
+		int v = tarjanSt.top();
+		tarjanSt.pop();
+        inStack[v] = 0;
+		while(v != p)
+		{
+			comp[v] = compTag;
+			v = tarjanSt.top();
+			tarjanSt.pop();
+            inStack[v] = 0;
+		}
+		comp[p] = compTag;
+		compTag++;
+	}
+}
+
+void tarjan()
+{
+	compTag = 1;
+	dfsTime = 1;
+	memset(visited, 0, sizeof(visited));
+	memset(inStack, 0, sizeof(inStack));
+	for(int i = 0;i < nodeNum;i++)
+		if (!visited[i])
+			dfs(i);
+
+	for(int i = 0;i < nodeNum - 2;i += 2)
+		if (comp[i] == comp[i + 1])
+		{
+			checked = false;
+			break;
+		}
+}
+
+int main()
+{
+	int m, n;
+	int edge[505][2];
+
+	scanf("%d %d", &n, &m);
+	for(int i = 0;i < m;i++)
+	{
+		int a, b;
+		scanf("%d %d", &a, &b);
+		edge[i][0] = min(a, b);
+		edge[i][1] = max(a, b);
+	}
+
+	for(int i = 0;i < m;i++)
+		for(int j = i + 1;j < m;j++)
+		{
+			int flag1 = (edge[j][0] > edge[i][0]) && (edge[j][0] < edge[i][1]);
+			int flag2 = (edge[j][1] > edge[i][0]) && (edge[j][1] < edge[i][1]);
+			if (flag1 != flag2)
+			{
+				graph[i * 2][j * 2 + 1] = graph[j * 2 + 1][i * 2] = 1;
+				graph[i * 2 + 1][j * 2] = graph[j * 2][i * 2 + 1] = 1;
+			}
+		}
+
+	checked = 1;
+	nodeNum = m * 2;
+	tarjan();
+
+	if (checked)
+		cout << "panda is telling the truth..." << endl;
+	else
+		cout << "the evil panda is lying again" << endl;
+	return 0;
+}

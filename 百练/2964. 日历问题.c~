@@ -1,0 +1,162 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+	int days;
+	int month;
+	int year;
+	int weekday;
+	int run;
+	int monthOver;
+
+	while(cin >> days, days != -1)
+	{
+		weekday = (days % 7 + 5 ) % 7;
+		days += 1;
+		year = 2000;
+		run = 0;
+		// year
+		while(1)
+		{
+			if (year % 4 == 0 && !(year % 100 == 0 && year % 400 != 0))
+			{
+				//cout << year << "run" << endl;
+				if (days - 366 > 0)
+					days -= 366;
+				else
+				{
+					run = 1;
+					break;
+				}
+			}
+			else
+			{
+				if (days - 365 > 0)
+					days -= 365;
+				else
+					break;
+			}
+			year++;
+		}
+		// month
+		month = 1;
+		monthOver = 0;
+		if (days - 31 > 0)
+		{
+			month++;
+			days -= 31;
+		}
+		else
+			monthOver = 1;
+		if (monthOver == 0 && run == 1)
+		{
+			if (days - 29 > 0)
+			{
+				month++;
+				days -= 29;
+			}
+			else
+				monthOver = 1;
+		}
+		else if (monthOver == 0 && run == 0)
+		{
+			if (days - 28 > 0)
+			{
+				month++;
+				days -= 28;
+			}
+			else
+				monthOver = 1;
+		}
+		if (monthOver == 0 && days - 31 > 0)
+		{
+			month++;
+			days -= 31;
+		}
+		else
+			monthOver = 1;
+		if (monthOver == 0 && days - 30 > 0)
+		{
+			month++;
+			days -= 30;
+		}
+		else
+			monthOver = 1;
+		if (monthOver == 0 && days - 31 > 0)
+		{
+			month++;
+			days -= 31;
+		}
+		else
+			monthOver = 1;
+		if (monthOver == 0 && days - 30 > 0)
+		{
+			month++;
+			days -= 30;
+		}
+		else
+			monthOver = 1;
+		if (monthOver == 0 && days - 31 > 0)
+		{
+			month++;
+			days -= 31;
+		}
+		else
+			monthOver = 1;
+		if (monthOver == 0 && days - 31 > 0)
+		{
+			month++;
+			days -= 31;
+		}
+		else
+			monthOver = 1;
+		if (monthOver == 0 && days - 30 > 0)
+		{
+			month++;
+			days -= 30;
+		}
+		else
+			monthOver = 1;
+		if (monthOver == 0 && days - 31 > 0)
+		{
+			month++;
+			days -= 31;
+		}
+		else
+			monthOver = 1;
+		if (monthOver == 0 && days - 30 > 0)
+		{
+			month++;
+			days -= 30;
+		}
+		else
+			monthOver = 1;
+		if (monthOver == 0 && days - 31 > 0)
+		{
+			month++;
+			days -= 31;
+		}
+		else
+			monthOver = 1;
+		cout << year << "-";
+		if (month < 10)
+			cout << "0" << month;
+		else
+			cout << month;
+		if (days < 10)
+			cout << "-0" << days;
+		else
+			cout << "-" << days;
+		switch (weekday)
+		{
+			case 0 : { cout << " Monday" << endl; break;};
+			case 1 : { cout << " Tuesday" << endl; break;};
+			case 2 : { cout << " Wednesday" << endl; break;};
+			case 3 : { cout << " Thursday" << endl; break;};
+			case 4 : { cout << " Friday" << endl; break;};
+			case 5 : { cout << " Saturday" << endl; break;};
+			case 6 : { cout << " Sunday" << endl; break;};
+		}
+	}
+	return 0;
+}

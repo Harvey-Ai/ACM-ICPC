@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+
+vector<vector<int> > graph;
+vector<vector<int> > cost;
+int endP;
+int maxDist;
+int visited[500005];
+
+int dfs(int p, int dist)
+{
+    if (visited[p])
+        return 0;
+    visited[p] = 1;
+    if (dist > maxDist)
+    {
+        maxDist = dist;
+        endP = p;
+    }
+    for(int i = 0;i < graph[p].size();i++)
+        dfs(graph[p][i], dist + cost[p][i]);
+}
+
+int main()
+{
+    graph.resize(10005);
+    cost.resize(10005);
+
+    int a, b, w;
+    int k = 0;
+    while(scanf("%d %d %d", &a, &b, &w) != EOF)
+    {
+   //     k++;
+        graph[a - 1].push_back(b - 1);
+        graph[b - 1].push_back(a - 1);
+        cost[a - 1].push_back(w);
+        cost[b - 1].push_back(w);
+  //      if (k >= 5)
+    //        break;
+    }
+
+    memset(visited, 0, sizeof(visited));
+    maxDist = 0;
+    dfs(0, 0);
+
+    memset(visited, 0, sizeof(visited));
+    maxDist = 0;
+    dfs(endP, 0);
+    cout << maxDist << endl;
+
+    return 0;
+}

@@ -1,0 +1,30 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int jin;
+	unsigned int a, b;
+	int arr[1000];
+
+	while(cin >> jin, jin)
+	{
+		cin >> a >> b;
+		unsigned int sum = a + b;
+		int i = 0;
+		if (sum == 0)
+		{
+			cout << 0 << endl;
+			continue;
+		}
+		while(sum)
+		{
+			arr[i++] = sum % jin;
+			sum /= jin;
+		}
+		for(i--;i >= 0;i--)
+			cout << arr[i];
+		cout << endl;
+	}
+	return 0;
+}

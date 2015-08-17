@@ -1,0 +1,51 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+
+#define dis ('a' - 'A')
+int main()
+{
+	char str[100];
+	char templ[1000010];
+	int i;
+	int first, num;
+
+	cin >> str;
+	for(i = 0;str[i] != '\0';i++)
+	{
+		if (str[i] < 'a')
+			str[i] += dis;
+		if (!(str[i] >= 'a' && str[i] <= 'z'))
+			while(1);
+	}
+	char c = getchar();
+	while(c != '\n')
+		c = getchar();
+	first = -1;
+	num = 0;
+	gets(templ);
+	char delims[] = " ";
+	char *result = NULL;
+	result = strtok( templ, delims );
+	while( result != NULL )
+	{
+		//cout<<result << endl;
+		for(i = 0;result[i] != '\0';i++)
+		{
+			if (result[i] < 'a')
+				result[i] += dis;
+		}
+		if (strcmp(str, result) == 0)
+		{
+			if (first == -1)
+				first = result - templ;
+			num++;
+		}
+       result = strtok( NULL, delims );
+	}
+
+	if (num) cout << num << " ";
+	cout << first << endl;
+	return 0;
+}

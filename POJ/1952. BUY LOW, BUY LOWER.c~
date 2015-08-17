@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <string.h>
+#define N 5005
+
+int arr[N];
+int longest[N];
+int ways[N];
+int main()
+{
+	int i, j, wayC, max, maxC, res, n;
+	scanf("%d", &n);
+
+	for(i = 0;i < n;i++)
+		scanf("%d", &arr[i]);
+
+	memset(longest, 0, sizeof(longest));
+
+	longest[0] = 1;
+	ways[0] = 1;
+	for(i = 1;i < n;i++)
+	{
+		wayC = 1;
+		max = 1;
+		for(j = 0;j < i;j++)
+		{
+			if (arr[i] < arr[j])
+			{
+				if (max < longest[j] + 1)
+				{
+					max = longest[j] + 1;
+					wayC = ways[j];
+				}
+				else
+					if (max == longest[j] + 1)
+						wayC += ways[j];
+			}
+		}
+		for (j = 0;j < i;j++)
+			if (max == longest[j] && arr[j] == arr[i])
+				ways[j] = 0;
+		ways[i] = wayC;
+		longest[i] = max;
+	}
+
+	maxC = 1;
+	res = 1;
+	for(i = 1;i < n;i++)
+	{
+		if (longest[i] > maxC)
+		{
+			maxC = longest[i];
+			res = ways[i];
+		}
+		else
+		{
+			if (longest[i] == maxC)
+				res += ways[i];
+		}
+	}
+	printf("%d %d\n", maxC, res);
+	return 0;
+}

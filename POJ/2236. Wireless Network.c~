@@ -1,0 +1,110 @@
+#include <stdio.h>
+#include <string.h>
+#define N 1005
+int set[N];
+int work[N];
+int map[N][N];
+int x[N], y[N];
+
+
+void makeSet()
+{
+    memset(set, -1, sizeof(set));
+}
+
+int getF(int id)
+{
+	int father = id;
+	int temp = id;
+	while(set[father] >= 0)
+		father = set[father];
+
+	while(id >= 0)
+	{
+		temp = set[id];
+		set[id] = father;
+		id =temp;
+	}
+	return father;
+}
+
+void Union(int id1, int id2)
+{
+	int fA, fB;
+	fA = getF(id1);
+	fB = getF(id2);
+
+	if (fA == fB)
+		return;
+	if (set[fA] < set[fB])
+	{
+		set[fA] += set[fB];
+		set[fB] = fA;
+	}
+	else
+	{
+		set[fB] += set[fA];
+		set[fA] = fB;
+	}
+}
+
+
+void pre(int n, int limit)
+{
+    int i, j;
+    makeSet();
+    memset(map, 0, sizeof(map));
+    memset(work, 0, sizeof(work));
+
+    for(i = 0;i < n;i++)
+        for(j = 0;j < n;j++)
+        {
+            if (i == j)
+                continue;
+            else
+            {
+                if((x[i]-x[j])*(x[i]-x[j]) + (y[i]-y[j])*(y[i]-y[j]) <= limit*limit)
+                    map[i][j] = map[j][i] = 1;
+            }
+        }
+}
+
+void pro(int n)
+{
+    char op;
+    int i, p, q;
+    getchar();
+
+    while(scanf("%c",&op) != EOF)
+    {
+        if (op == 'O')
+        {
+            scanf("%d", &p);
+            for(i = 0;i < n;i++)
+                if (map[i][p-1] && work[i])
+                    Union(i, p-1);
+            work[p-1] = 1;
+        }
+        else
+        {
+            scanf("%d %d", &p, &q);
+            if (getF(p-1) == getF(q-1))
+                printf("SUCCESS\n");
+            else
+                printf("FAIL\n");
+        }
+		getchar();
+    }
+}
+int main()
+{
+    int i, n, limit;
+    scanf("%d %d", &n, &limit);
+
+    for(i = 0;i < n;i++)
+        scanf("%d %d", &x[i], &y[i]);
+
+    pre(n, limit);
+    pro(n);
+    return 0;
+}

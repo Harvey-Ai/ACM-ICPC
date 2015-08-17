@@ -1,0 +1,36 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+using namespace std;
+
+int shift1 = 0x55555555, shift2 = 0xAAAAAAAA;
+int shift3 = 0x33333333, shift4 = 0xCCCCCCCC;
+int shift5 = 0x0F0F0F0F, shift6 = 0xF0F0F0F0;
+int shift7 = 0x00FF00FF, shift8 = 0xFF00FF00;
+int shift9 = 0x0000FFFF, shift10 = 0xFFFF0000;
+
+int getOneNum(int c)
+{
+	c = (c & shift1) + ((c & shift2) >> 1);
+	c = (c & shift3) + ((c & shift4) >> 2);
+	c = (c & shift5) + ((c & shift6) >> 4);
+	c = (c & shift7) + ((c & shift8) >> 8);
+	c = (c & shift9) + ((c & shift10) >> 16);
+	return c;
+}
+
+int main()
+{
+	int n;
+
+	while(scanf("%d", &n), n)
+	{
+		int oneNum = getOneNum(n);
+
+		int temp = getOneNum(++n);
+		while(temp != oneNum)
+			temp = getOneNum(++n);	
+		cout << n << endl;
+	}
+	return 0;
+}

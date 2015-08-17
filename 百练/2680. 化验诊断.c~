@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+	int k;
+	char sex[10];
+	double arr[10];
+	int i, un;
+	scanf("%d", &k);
+
+	while(k--)
+	{
+		scanf("%s", sex);
+		for(i = 0;i < 5;i++)
+			scanf("%lf", &arr[i]);
+		un = 0;
+
+		if (arr[0] < 4.0 || arr[0] > 10.0)
+			un++;
+
+		if (arr[1] < 3.5 || arr[1] > 5.5)
+			un++;
+		if (strcmp(sex, "female") == 0)
+		{
+			if (arr[2] < 110 ||arr[2] > 150)
+				un++;
+		}
+		else if (arr[2] < 120 || arr[2] > 160)
+			un++;
+
+		if (strcmp(sex, "female") == 0)
+		{
+			if (arr[3] < 36 || arr[3] > 40)
+				un++;
+		}
+		else if (arr[3] < 42 || arr[3] > 48)
+			un++;
+
+		if (arr[4] < 100 || arr[4] > 300)
+			un++;
+		if (un == 0)
+			printf("normal\n");
+		else
+			printf("%d\n", un);
+	}
+	return 0;
+}

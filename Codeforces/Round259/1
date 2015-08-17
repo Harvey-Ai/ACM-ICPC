@@ -1,0 +1,16 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int n, m;
+	cin >> m >> n;
+
+	double oneExp = 0;
+	for(int i = 1;i <= m;i++)
+		oneExp += i;
+	oneExp /= m;
+
+	printf("%.5ld\n", oneExp * n);
+	return 0;
+}

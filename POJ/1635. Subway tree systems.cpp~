@@ -1,0 +1,59 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+string getMin(const string &str)
+{
+	int t = 0;
+	int pre = 0;
+
+	if (str == "")
+		return "";
+
+	vector<string> subMinTree;
+	for(int i = 0;i < str.size();i++)
+	{
+		if (str[i] == '0')
+			t++;
+		else
+			t--;
+		if (t == 0)
+		{
+			string temp = "0";
+			temp += getMin(str.substr(pre + 1, i - pre - 1));
+			temp += "1";
+			subMinTree.push_back(temp);
+			pre = i + 1;
+		}
+	}
+
+	sort(subMinTree.begin(), subMinTree.end());
+	string res;
+
+	for(int i = 0;i < subMinTree.size();i++)
+		res += subMinTree[i];
+	return res;
+}
+
+int main()
+{
+	int ncase;
+	cin >> ncase;
+
+	while(ncase--)
+	{
+		string str1, str2;
+		cin >> str1;
+		string minTree1 = getMin(str1);
+		cin >> str2;
+		string minTree2 = getMin(str2);
+		if (minTree1 == minTree2)
+			cout << "same" << endl;
+		else
+			cout << "different" << endl;
+	}
+
+	return 0;
+}

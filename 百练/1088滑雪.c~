@@ -1,0 +1,71 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int g[105][105], dp[105][105];
+int m, n;
+
+int dfs(int row, int cl)
+{
+	if (row < 0 || row >= m || cl < 0 || cl >= n)
+		return 0;
+	if (dp[row][cl] == 0)
+	{
+		int max = 0;
+		int temp;
+		if (row + 1 < m && g[row][cl] > g[row + 1][cl])
+		{
+			temp = dfs(row + 1, cl);
+			if (temp > max)
+				max = temp;
+		}
+		if (row - 1 >= 0 && g[row][cl] > g[row - 1][cl])
+		{
+			temp = dfs(row - 1, cl);
+			if (temp > max)
+				max = temp;
+		}
+		if (cl - 1 >= 0 && g[row][cl] > g[row][cl - 1])
+		{
+			temp = dfs(row, cl - 1);
+			if (temp > max)
+				max = temp;
+		}
+		if (cl + 1 < n && g[row][cl] > g[row][cl + 1])
+		{
+			temp = dfs(row, cl + 1);
+			if (temp > max)
+				max = temp;
+		}
+		dp[row][cl] = max + 1;
+		return max + 1;
+	}
+	else
+		return dp[row][cl];
+}
+
+int main()
+{
+	int i, j;
+	cin >> m >> n;
+
+	for(i = 0;i < m;i++)
+		for(j = 0;j < n;j++)
+			cin >> g[i][j];
+
+	
+//	cout << "fdsafd" << endl;
+	memset(dp, 0, sizeof(dp));
+	for(i = 0;i < m;i++)
+		for(j = 0;j < n;j++)
+			dfs(i, j);
+
+	int max = 1;
+	for(i = 0;i < m;i++)
+		for(j = 0;j < n;j++)
+			if (max < dp[i][j])
+				max = dp[i][j];
+//	cout << "fdsafd" << endl;
+	cout << max << endl;
+	return 0;
+}

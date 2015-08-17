@@ -1,0 +1,77 @@
+#include <stdio.h>
+#define N 105
+#define MaxL 35
+int dp[N][N], drect[N][N],res[N];
+char s1[N][MaxL], s2[N][MaxL];
+
+int main()
+{
+	int i, j, k, l1, l2, direction, temp;
+	while(scanf("%s", s1[0]) != EOF)
+	{
+		for(l1 = 1;strcmp(s1[l1-1], "#");l1++)
+			scanf("%s", s1[l1]);
+		l1--;
+
+		scanf("%s", s2[0]);
+		for(l2 = 1;strcmp(s2[l2-1], "#");l2++)
+			scanf("%s", s2[l2]);
+		l2--;
+
+		memset(dp, 0, sizeof(dp));
+
+		for(i = 1;i <= l1;i++)
+			for(j = 1;j <= l2;j++)
+			{
+				if (strcmp(s1[i -1], s2[j - 1]) == 0)
+				{
+					temp = dp[i - 1][j - 1] + 1;
+					direction = 0;
+				}
+				else
+				{
+					temp = dp[i - 1][j - 1];
+					direction = 3;
+				}
+				
+				if (dp[i - 1][j] > temp)
+				{
+					temp = dp[i - 1][j];
+					direction = 1;
+				}
+				if (dp[i][j - 1] > temp)
+				{
+					temp = dp[i][j - 1];
+					direction = 2;
+				}
+				dp[i][j] = temp;
+				drect[i][j] = direction;
+			}
+
+		for(k = 0,i = l1, j = l2;i && j;)
+			if(drect[i][j] == 0)
+			{
+				res[k++] = i;
+				i--;j--;
+			}
+			else
+			{
+				if (drect[i][j] == 1) i--;
+				else if (drect[i][j] == 2) j--;
+				else
+				{
+					i--;
+					j--;
+				}
+			}
+
+		while(--k)
+			printf("%s ", s1[res[k] - 1]);
+
+		if(k == 0)
+			printf("%s", s1[res[0] -1]);
+		putchar('\n');
+	}
+	return 0;
+}
+

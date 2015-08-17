@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <string.h>
+#define N 5005
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+
+int dp[2][N];
+int reverse(char *s1, int l, char *s2)
+{
+	int i;
+	for(i = 0;i < l;i++)
+		s2[l-1-i] = s1[i];
+	return 1;
+}
+int main()
+{
+	char s1[N], s2[N];
+	int i, j, l, pre, now, temp;
+
+	scanf("%d", &l);
+	scanf("%s", s1);
+
+	reverse(s1, l, s2);
+
+	memset(dp, 0, sizeof(dp));
+	pre = 0;
+	now = 1;
+
+	for(i = 1;i <= l;i++)
+	{
+		for(j = 1;j <= l;j++)
+		{
+			if (s1[i -1] == s2[j - 1])
+				temp = dp[pre][j - 1] + 1;
+			else
+				temp = dp[pre][j - 1];
+
+			temp = MAX(temp, MAX(dp[pre][j], dp[now][j - 1]));
+			dp[now][j] = temp;
+		}
+		temp = pre;
+		pre = now;
+		now = temp;
+	}
+
+	printf("%d\n", l-dp[pre][l]);
+	return 0;
+}

@@ -1,0 +1,35 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+	double a, b, c;
+
+	int n;
+	cout.precision(5);
+	cout.setf(ios::fixed);
+	cin >> n;
+	while(n--)
+	{
+		cin >> a >> b >> c;
+		if (fabs(b * b - 4 * a * c) < 1e-8)
+		{
+			cout << "x1=x2=" << (-b) / (2 * a) << endl;
+		}
+		else if (b * b > 4 * a * c)
+		{
+			cout << "x1=" << (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
+			cout << ";x2=" << (-b - sqrt(b * b - 4 * a * c)) / (2 * a) << endl;
+		}
+		else
+		{
+			double temp = -b / a / 2;
+			if (fabs(temp) < 1e-8)	temp = 0;
+			cout << "x1=" << temp << "+" << sqrt(4 * a * c - b * b) / (2 * a) << "i;";
+			cout << "x2=" << temp << "-" << sqrt(4 * a * c - b * b) / (2 * a) << "i" << endl;
+		}
+	}
+	return 0;
+}

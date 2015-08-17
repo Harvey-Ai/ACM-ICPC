@@ -1,0 +1,44 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+struct tt
+{
+	char card[100], tm1[100], tm2[100];
+};
+
+int main()
+{
+	int ncase;
+	int i, n;
+	struct tt p[500];
+	char comeT[100], goT[100], first[100], end[100];
+	cin >> ncase;
+
+	while(ncase--)
+	{
+		cin >> n;
+		for(i = 0;i < n;i++)
+			cin >> p[i].card >> p[i].tm1 >> p[i].tm2;
+
+		strcpy(first, p[0].card);
+		strcpy(comeT, p[0].tm1);
+		for(i = 1;i < n;i++)
+			if (strcmp(comeT, p[i].tm1) > 0)
+			{
+				strcpy(first, p[i].card);
+				strcpy(comeT, p[i].tm1);
+			}
+
+		strcpy(end, p[0].card);
+		strcpy(goT, p[0].tm2);
+		for(i = 1;i < n;i++)
+			if (strcmp(goT, p[i].tm2) < 0)
+			{
+				strcpy(end, p[i].card);
+				strcpy(goT, p[i].tm2);
+			}
+		cout << first << " " << end << endl;
+	}
+	return 0;
+}

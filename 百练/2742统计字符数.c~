@@ -1,0 +1,30 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int n;
+	int flag[40];
+	int i;
+	int max, id;
+	char str[5000];
+	cin >> n;
+	while(n--)
+	{
+		cin >> str;
+		for(i = 0;i < 26;i++)
+			flag[i] = 0;
+		for(i = 0;str[i] != '\0';i++)
+			flag[str[i] - 'a']++;
+		max = flag[0];
+		id = 0;
+		for(i = 0;i < 26;i++)
+			if (max < flag[i])
+			{
+				id = i;
+				max = flag[i];
+			}
+		cout<< (char)(id + 'a') << " " << flag[id] << endl;
+	}
+	return 0;
+}

@@ -1,0 +1,66 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+
+int uSet[5005];
+
+void makeSet()
+{
+	memset(uSet, -1 , sizeof(uSet));
+}
+
+int getF(int u)
+{
+	int root = u;
+	while(uSet[root] >= 0)
+		root = uSet[root];
+
+	while(u != root)
+	{
+		int temp = uSet[u];
+		uSet[u] = root;
+		u = temp;
+	}
+	
+	return root;
+}
+
+void merge(int u, int v)
+{
+	int rootU = getF(u);
+	int rootV = getF(v);
+	if (rootV != rootU)
+	{
+		uSet[rootV] += uSet[rootU];
+		uSet[rootU] = rootV;
+	}
+}
+
+int main()
+{
+	int n, m, q;
+	makeSet();
+	cin >> n >> m >> q;
+
+	for(int i = 0;i < m;i++)
+	{
+		int a, b;
+		scanf("%d %d", &a, &b);
+		a--, b--;
+		merge(a, b);
+	}
+
+	for(int i = 0;i < q;i++)
+	{
+		int a, b;
+		scanf("%d %d", &a, &b);
+		a--, b--;
+		if (getF(a) == getF(b))
+			printf("Yes\n");
+		else
+			printf("No\n");
+	}
+
+	return 0;
+}

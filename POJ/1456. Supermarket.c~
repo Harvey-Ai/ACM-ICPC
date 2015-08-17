@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define N 100005
+
+struct product
+{
+	int pf;
+	int dl;
+};
+
+int cmp(const void *a, const void *b)
+{
+	return ((struct product *)b)->pf - ((struct product *)a)->pf;
+}
+
+int main()
+{
+	int i, n, maxTime;
+	int ff, temp, salT, res;
+	struct product pd[N];
+	int time[N];
+
+	while(scanf("%d", &n) != EOF)
+	{
+		maxTime = 0;
+		res = 0;
+		for(i = 0;i < n;i++)
+		{
+			scanf("%d %d", &pd[i].pf, &pd[i].dl);
+			if (pd[i].dl > maxTime)
+				maxTime = pd[i].dl;
+		}
+
+		qsort(pd, n, sizeof(pd[0]), cmp);
+		
+		memset(time, -1, sizeof(time));
+
+		for(i = 0;i < n;i++)
+		{
+			salT = pd[i].dl;
+			while(time[salT] >= 0)
+				salT = time[salT];
+
+			if (salT)
+			{
+				res += pd[i].pf;
+				time[salT] = salT - 1;
+				ff = pd[i].dl;
+				while(ff != salT)
+				{
+					temp = time[ff];
+					time[ff] = salT - 1;
+					ff = temp;
+				}
+			}
+			else
+			{
+				time[pd[i].dl] = 0;
+				ff = pd[i].dl;
+				while(ff != 0)
+				{
+					temp = time[ff];
+					time[ff] = 0;
+					ff = temp;
+				}
+			}
+		}
+		printf("%d\n", res);
+	}
+	return 0;
+}

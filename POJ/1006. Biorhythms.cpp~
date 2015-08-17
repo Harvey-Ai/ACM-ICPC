@@ -1,0 +1,57 @@
+#include <iostream>
+using namespace std;
+
+template<class T>
+void extgcd(T a, T b, T &d, T &x, T &y)
+{
+	if (!b)
+	{
+		d = a;
+		x = 1;
+		y = 0;
+	}
+	else
+	{
+		extgcd(b, a % b, d, y, x);
+		y -= x * (a / b);
+	}
+}
+
+template<class T>
+T inv(T a, T n)
+{
+	T d, x, y;
+	extgcd(a, n, d, x, y);
+
+	if (d == 1)
+		return (x % n + n) % n;
+	else
+		return -1;
+}
+
+
+int main()
+{
+	int p, q, s, d;
+	int icase = 1;
+	while(cin >> p >> q >> s >> d, p >= 0 && q >= 0 && s >= 0 && d >=0)
+	{
+		int M = 23 * 28 * 33;
+
+		int m1 = 28 * 33;
+		int nm1 = inv(m1, 23);
+		int m2 = 23 * 33;
+		int nm2 = inv(m2, 28);
+		int m3 = 23 * 28;
+		int nm3 = inv(m3, 33);
+
+		int res = m1 * nm1 * p + m2 * nm2 * q + m3 * nm3 * s;
+		if (res <= d)
+			res += (((d - res) / M + 1) * M);
+		else
+			res -= ((res - d - 1) / M * M);
+
+		cout << "Case " << icase++ << ": the next triple peak occurs in " << res - d << " days." << endl;
+	}
+	return 0;
+}

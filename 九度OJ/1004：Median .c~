@@ -1,0 +1,56 @@
+#include <iostream>
+using namespace std;
+
+
+int arr1[1000005];
+int arr2[1000005];
+int main()
+{
+	int n1, n2;
+	int i;
+
+	while(cin >> n1)
+	{
+		for(i = 0;i < n1;i++)
+			cin >> arr1[i];
+		cin >> n2;
+		for(i = 0;i < n2;i++)
+			cin >> arr2[i];
+
+		int pos1, pos2, index;
+		int res;
+		pos1 = pos2 = -1;
+		index = -1;
+		int flag;
+
+		while(index != (n1 + n2 - 1) / 2)
+		{
+			if (pos1 + 1 < n1 && pos2 + 1 < n2)
+			{
+				if (arr1[pos1 + 1] < arr2[pos2 + 1])
+				{
+					pos1++;	
+					res = arr1[pos1];
+				}
+				else
+				{
+					pos2++;
+					res = arr2[pos2];
+				}
+			}
+			else if (pos1 + 1 < n1)
+			{
+				pos1++;
+				res = arr1[pos1];
+			}
+			else
+			{
+				pos2++;
+				res = arr2[pos2];
+			}
+			index++;
+		}
+		cout << res << endl;
+	}
+	return 0;
+}

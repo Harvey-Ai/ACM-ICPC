@@ -1,0 +1,86 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+using namespace std;
+
+char label[20];
+int x[20], y[20];
+
+int isLeft(int p1, int p2, int p)
+{
+	int xV = x[p2] - x[p1];
+	int yV = y[p2] - y[p1];
+
+	int px = x[p] - x[p1];
+	int py = y[p] - y[p1];
+
+	if (xV * py - yV * px > 0)
+		return 1;
+	else if (xV * py - yV * px < 0)
+		return -1;
+	if (xV * py - yV * px == 0)
+		return 0;
+}
+
+bool inTriangle(int p1, int p2, int p3, int p)
+{
+	int flag1 = isLeft(p1, p2, p);
+	int flag2 = isLeft(p2, p3, p);
+	int flag3 = isLeft(p3, p1, p);	
+
+	if ((flag1 <= 0 && flag2 <= 0 && flag3 <= 0) ||
+			flag1 >= 0 && flag2 >= 0 && flag3 >= 0)
+		return false;
+	return true;
+}
+
+int main()
+{
+	int n;
+
+	while(cin >> n, n)
+	{
+		for(int i = 0;i < n;i++)
+		{
+			getchar();
+			scanf("%c", &label[i]);
+			scanf("%d %d", &x[i], &y[i]);
+		}
+		
+		int area = 0;
+		char res[4];
+		for(int i = 0;i < n;i++)
+			for(int j = i + 1;j < n;j++)
+				for(int k = j + 1;k < n;k++)
+				{
+					int flag = 1;
+					for(int l = 0;l < n;l++)
+					{
+						if (l == i || l == j || l == k)
+							continue;
+						if (!inTriangle(i, j, k, l))
+						{
+							flag = 0;
+							break;
+						}
+					}
+					int x1 = x[j] - x[i], y1 = y[j] - y[i];
+					int x2 = x[k] - x[j], y2 = y[k] - y[j];
+					int x3 = x[i] - x[k], y3 = y[i] - y[k];
+					
+					int temp = abs(x1 * y2 - x2 * y1) + abs(x2 * y3 - x3 * y2) + abs(x3 * y1 - x1 * y3);
+					if (temp > area && flag)
+					{
+						res[0] = label[i];
+						res[1] = label[j];
+						res[2] = label[k];
+						area = temp;
+					}
+				}
+		res[3] = '\0';
+		sort(res, res + 3);
+		cout << res << endl;
+	}
+	return 0;
+}
+

@@ -1,0 +1,55 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+void add(string &a, char b)
+{
+	int flag = b - '0';
+	int i;
+
+//	cout << flag << endl;
+	for(i = 0;i < a.length();i++)
+	{
+		a[i] += flag;
+		flag = 0;
+		if (a[i] > '9')
+		{
+			a[i] -= 10;
+			flag = 1;
+		}
+		if (flag == 0)
+			break;
+	}
+	if (flag == 1)
+		a.append(string("1"));
+}
+
+int main()
+{
+	string str;
+	string temp;
+	int i;
+
+	while(cin>>str)
+	{
+		if (str == "0")
+			break;
+		else
+		{
+			while(str.length() > 1)
+			{
+			//	cout << "str len" << str.length() << endl;
+				temp = "0";
+				for(i = 0;i < str.length();i++)
+				{
+					add(temp, str[i]);
+			//		cout << temp << endl;
+				}
+			//	cout << temp << endl;
+				str = temp;
+			}
+			cout << str <<endl;
+		}
+	}
+	return 0;
+}

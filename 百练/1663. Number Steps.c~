@@ -1,0 +1,43 @@
+#include <iostream>
+using namespace std;
+
+int work(int x, int y)
+{
+	int	posx = 0, posy = 0;
+	int num = 0;
+
+	while(posx <= x || posy < y)
+	{
+		if (posx == x && posy == y)
+			return num;
+		else if (posx + 1 == x && posy + 1== y)
+			return num + 1;
+		else if (posx + 2 == x && posy == y)
+			return num + 2;
+		else if (posx + 3 == x && posy + 1 == y)
+			return num + 3;
+		posx += 2;
+		posy += 2;
+		num += 4;
+	}
+	return -1;
+}
+
+int main()
+{
+	int res;
+	int x, y;
+	int ncase;
+	cin >> ncase;
+
+	while(ncase--)
+	{
+		cin >> x >> y;
+		res = work(x, y);
+		if (res != -1)
+			cout << res << endl;
+		else
+			cout << "No Number" << endl;
+	}
+	return 0;
+}

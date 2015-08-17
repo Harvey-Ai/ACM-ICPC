@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+#define N 105
+
+int g[N][N];
+int main()
+{
+	int i, j, k, cost, a, m, n, temp, minId, min;
+	while(scanf("%d", &n), n)
+	{
+		memset(g, -1, sizeof(g));
+		for(i = 0;i < n;i++)
+		{
+			scanf("%d", &m);
+			for(j = 0;j < m;j++)
+			{
+				scanf("%d %d", &a, &cost);
+				g[i][a-1] = cost;
+			}
+		}
+		for(i = 0;i < n;i++)
+			g[i][i] = 0;
+
+		for(k = 0;k < n;k++)
+			for(i = 0;i < n;i++)
+			{
+				if (i == k)
+					continue;
+				for(j = 0;j < n;j++)
+					if ((g[i][j] == -1 && g[i][k] != -1 && g[k][j] != -1) || (g[i][j] > g[i][k] + g[k][j] && g[i][k] != -1 && g[k][j] != -1))
+					{
+						g[i][j] = g[i][k] + g[k][j];
+					}
+			}
+
+		minId = -1;
+		min = -1;
+		for(i = 0;i < n;i++)
+		{
+			temp = 0;
+			for(j = 0;j < n;j++)
+			{
+				if (g[i][j] == -1)
+					break;
+				if (g[i][j] > temp)
+					temp = g[i][j];
+			}
+			if ((temp < min || min == -1) && j == n)
+			{
+				minId = i;
+				min = temp;
+			}
+		}
+		if (minId != -1)
+			printf("%d %d\n", minId + 1, min);
+		else
+			printf("disjoint\n");
+	}
+	return 0;
+}

@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int p, e, i, d;
+	int ncase = 1;
+	while(cin >> p >> e >> i >> d)
+	{
+		if (p == -1)
+			break;
+		while(p >= d)
+			p -= 23;
+		while(e >= d)
+			e -= 28;
+		while(i >= d)
+			i -= 33;
+
+		while(p <= d)
+			p += 23;
+		while(e <= d)
+			e += 28;
+		while(i <= d)
+			i += 33;
+
+//		cout << "fda " << endl;
+		while (p != e || e != i)
+		{
+		//	if (p == 21252)
+//				cout << p << " " << e << " " << i << endl;
+			if (p <= e && p <= i)
+				p += 23;
+			else if (e <= p && e <= i)
+				e += 28;
+			else if (i <= p && i <= e)
+				i += 33;
+		}
+		cout << "Case " << ncase++ <<": the next triple peak occurs in " << p - d << " days." << endl;
+	}
+	return 0;
+}
+

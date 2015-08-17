@@ -1,0 +1,26 @@
+#include <iostream>
+#include <string>
+#include <cstring>
+using namespace std;
+
+int main()
+{
+	int i;
+	char str[1000];
+	while(cin >> str)
+	{
+		if (strcmp(str, "0") == 0)
+			break;
+
+		int len = strlen(str);
+		int quan = 2;
+		int res = 0;
+		for(i = len - 1;i >= 0;i--)
+		{
+			res += (str[i] - '0') * (quan - 1);
+			quan <<= 1;
+		}
+		cout << res << endl;
+	}
+	return 0;
+}

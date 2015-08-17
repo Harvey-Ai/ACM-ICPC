@@ -1,0 +1,69 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int main()
+{
+	int n, m;
+	int i, j, k;
+	int g[40][40];
+	char str[100];
+
+	while(cin >> n >> m, m || n)
+	{
+		memset(g, -1, sizeof(g));
+		for(i = 0;i < n;i++)
+		{
+			cin >> str;
+			if (str[1] != '-')
+				g[str[1] - 'A'][str[0] - 'A'] = 1;
+			if (str[2] != '-')
+				g[str[2] - 'A'][str[0] - 'A'] = 1;
+		}
+
+		for(k = 0;k < 26;k++)
+			for(i = 0;i < 26;i++)
+			{
+				if (i == k)
+					continue;
+				for(j = 0;j < 26;j++)
+				{
+					if (j == i || j == k)
+						continue;
+					if (g[i][k] != -1 && g[k][j] != -1 && (g[i][j] == -1 || g[i][j] > g[i][k] + g[k][j]))
+						g[i][j] = g[i][k] + g[k][j];
+				}
+			}
+
+
+		for(i = 0;i < m;i++)
+		{
+			cin >> str;
+			if (g[str[0] - 'A'][str[1] - 'A'] != -1)
+			{
+				if (g[str[0] - 'A'][str[1] - 'A'] == 1)
+					cout << "parent" << endl;
+				else if (g[str[0] - 'A'][str[1] - 'A'] >= 2)
+				{
+					for(j = 0;j < g[str[0] - 'A'][str[1] - 'A'] - 2;j++)
+						cout << "great-";
+					cout << "grandparent" << endl;
+				}
+			}
+			else if (g[str[1] - 'A'][str[0] - 'A'] != -1)
+			{
+				if (g[str[1] - 'A'][str[0] - 'A'] == 1)
+					cout << "child" << endl;
+				else if (g[str[1] - 'A'][str[0] - 'A'] >= 2)
+				{
+					for(j = 0;j < g[str[1] - 'A'][str[0] - 'A'] - 2;j++)
+						cout << "great-";
+					cout << "grandchild" << endl;
+				}
+			}
+			else
+				cout << "-" << endl;
+		}
+	}
+	return 0;
+}

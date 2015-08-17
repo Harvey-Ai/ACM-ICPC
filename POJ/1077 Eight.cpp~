@@ -1,0 +1,199 @@
+#include <iostream>
+#include <queue>
+#include <cassert>
+#include <set>
+#include <cstring>
+#include <string>
+#include <cstdio>
+#include <cstdlib>
+using namespace std;
+
+struct qEleType
+{
+	int status[9];
+	int existCost;
+	int totalCost;
+    string op;
+
+	qEleType(int s[], int e, int t)
+	{
+		for(int i = 0;i < 9;i++)
+			status[i] = s[i];
+		existCost = e;
+		totalCost = t + e;
+	}
+	qEleType()
+	{
+	}
+
+	bool operator()(const qEleType &a, const qEleType &b)
+	{
+		if (a.totalCost > b.totalCost)
+			return 1;
+		else
+			return 0;
+	}
+};
+
+int closeTable[1000000];
+int fac[10];
+
+int kanto(int s[]){//康托展开  
+	int res = 0;
+
+	int has[9];
+	for(int i = 0;i < 9;i++)
+		has[i] = 1;
+
+	for(int i = 0; i < 9; i++){  
+		int x = s[i], y = 0;  
+		for(int j = 1; j < x; j++){  
+			if(has[j]) y++;  
+		}  
+		res += y * fac[8 - i]; 
+		has[x] = 0; 
+	}  
+	return res;  
+}
+
+int cal(int status[])
+{
+	int totalCost = 0;
+	
+    for(int i = 0;i < 9;i++)
+    {
+		int h = (status[i] - 1) / 3;
+		int v = (status[i] - 1) % 3;
+		totalCost += abs(i / 3 - h) + abs(i % 3 - v);
+	}
+
+	return totalCost;
+}
+
+int main()
+{
+	fac[0] = fac[1] = 1;
+	for(int i = 2;i < 10;i++)
+		fac[i] = fac[i - 1] * i;
+	int left[10], right[10], bottom[10], top[10];
+
+	for(int i = 0;i < 10;i++)
+	{
+		if (i % 3 != 0)
+			left[i] =  i - 1;
+		else
+			left[i] = -1;
+		if (i % 3 != 2)
+			right[i] = (i + 1);
+		else
+			right[i] = -1;
+		if (i / 3 != 0)
+			top[i] = i - 3;
+		else
+			top[i] = -1;
+		if (i / 3 != 2)
+			bottom[i] = i + 3;
+		else
+			bottom[i] = -1;
+	}
+	memset(closeTable, -1, sizeof(closeTable));
+
+	int endStatus[9];
+	for(int i = 0;i < 9;i++)
+		endStatus[i] = i + 1;
+	int endStausNum = kanto(endStatus);
+	
+	int inStatus[9];
+	for(int i = 0;i < 9;i++)
+	{
+		char a;
+        cin >> a;
+		if (a == 'x')
+			inStatus[i] = 9;
+		else
+			inStatus[i] = a - '0';
+	}
+
+	priority_queue<qEleType, vector<qEleType>, qEleType> openTable;
+	openTable.push(qEleType(inStatus, 0, cal(inStatus)));
+	string res;
+
+	while(!openTable.empty())
+	{
+		qEleType minStatus = openTable.top();
+		openTable.pop();
+
+		int currentNum = kanto(minStatus.status);
+		if (currentNum == endStausNum)
+		{
+			res = minStatus.op;
+			break;
+		}
+		closeTable[currentNum] = minStatus.existCost;
+
+		int newStatus[9];
+		int zeroPos = -1;
+		for(int i = 0;i < 9;i++)
+		{
+			newStatus[i] = minStatus.status[i];
+			if (newStatus[i] == 9)
+				zeroPos = i;
+		}
+		int pos1 = left[zeroPos], pos2 = right[zeroPos], pos3 = bottom[zeroPos], pos4 = top[zeroPos];
+
+        if (pos1 != -1)
+		{
+			swap(newStatus[pos1], newStatus[zeroPos]);
+			int e1Num = kanto(newStatus);
+			if (closeTable[e1Num] == -1 || closeTable[e1Num] > minStatus.existCost + 1)
+			{
+				qEleType leftStatus(newStatus, minStatus.existCost + 1, cal(newStatus));
+				leftStatus.op = minStatus.op + 'l';
+				openTable.push(leftStatus);
+			}
+			swap(newStatus[pos1], newStatus[zeroPos]);
+		}
+
+		if (pos2 != -1)
+		{
+			swap(newStatus[pos2], newStatus[zeroPos]);
+			int e2Num = kanto(newStatus);
+			if (closeTable[e2Num] == -1 || closeTable[e2Num] > minStatus.existCost + 1)
+			{
+				qEleType rightStatus(newStatus, minStatus.existCost + 1, cal(newStatus));
+				rightStatus.op = minStatus.op + 'r';
+				openTable.push(rightStatus);
+			}
+			swap(newStatus[pos2], newStatus[zeroPos]);
+		}
+
+		if (pos3 != -1)
+		{
+			swap(newStatus[pos3], newStatus[zeroPos]);
+			int e3Num = kanto(newStatus);
+			if (closeTable[e3Num] == -1 || closeTable[e3Num] > minStatus.existCost + 1)
+			{
+				qEleType bottomStatus(newStatus, minStatus.existCost + 1, cal(newStatus));
+				bottomStatus.op = minStatus.op + 'd';
+				openTable.push(bottomStatus);
+			}
+			swap(newStatus[pos3], newStatus[zeroPos]);
+		}
+
+		if (pos4 != -1)
+		{
+			swap(newStatus[pos4], newStatus[zeroPos]);
+			int e4Num = kanto(newStatus);
+			if (closeTable[e4Num] == -1 || closeTable[e4Num] > minStatus.existCost + 1)
+			{
+				qEleType topStatus(newStatus, minStatus.existCost + 1, cal(newStatus));
+				topStatus.op = minStatus.op + 'u';
+				openTable.push(topStatus);
+			}
+			swap(newStatus[pos4], newStatus[zeroPos]);
+		}
+	}
+
+	cout << res << endl;
+	return 0;
+}

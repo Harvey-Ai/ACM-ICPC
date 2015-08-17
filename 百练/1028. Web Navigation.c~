@@ -1,0 +1,47 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	string stack1[100], stack2[100];
+	string site, str;
+	int pos1, pos2;
+	pos1 = pos2 = 0;
+	string pre = "http://www.acm.org/";
+	while(cin >> str, str != "QUIT")
+	{
+		if (str == "VISIT")
+		{
+			cin >> site;
+			cout << site << endl;
+			stack1[pos1++] = pre;
+			pre = site;
+			pos2 = 0;
+		}
+		else if (str == "BACK")
+		{
+			if (pos1)
+			{
+				pos1--;
+				cout << stack1[pos1] << endl;
+				stack2[pos2++] = pre;
+				pre = stack1[pos1];
+			}
+			else
+				cout << "Ignored" << endl;
+		}
+		else if (str == "FORWARD")
+		{
+			if (pos2)
+			{
+				pos2--;
+				cout << stack2[pos2] << endl;
+				stack1[pos1++] = pre;
+				pre = stack2[pos2];
+			}
+			else
+				cout << "Ignored" << endl;
+		}
+	}
+	return 0;
+}

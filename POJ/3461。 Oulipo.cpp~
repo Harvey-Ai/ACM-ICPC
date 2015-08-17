@@ -1,0 +1,64 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+
+char mStr[10005], tStr[1000005];
+int mLen, tLen;
+int next[10005];
+
+void calNext()
+{
+	next[0] = -1;
+	int k = -1;
+
+	for(int i = 1;i < mLen;i++)
+	{
+		while(k >= 0 && mStr[k + 1] != mStr[i])
+		   k = next[k];
+
+		if (mStr[k + 1] == mStr[i])
+			k++;
+
+        next[i] = k;
+	}
+}
+
+int kmp()
+{
+    calNext();
+
+	int res = 0;
+	int k = -1;
+	for(int i = 0;i < tLen;i++)
+	{
+		while(k >= 0 && tStr[i] != mStr[k + 1])
+			k = next[k];
+		
+        if (tStr[i] == mStr[k + 1])
+            k++;
+		if (k == mLen - 1)
+		{
+			res++;
+			k = next[k];
+		}
+	}
+	return res;
+}
+
+int main()
+{
+	int ncase;
+	cin >> ncase;
+	
+	while(ncase--)
+	{
+        scanf("%s\n%s", mStr, tStr);
+        mLen = strlen(mStr);
+        tLen = strlen(tStr);
+		cout << kmp() << endl;
+	}
+	return 0;
+}

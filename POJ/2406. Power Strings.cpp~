@@ -1,0 +1,41 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+
+char str[1000006];
+int next[1000006];
+int strLen;
+
+void getNext()
+{
+	int k = -1;
+	next[0] = -1;
+
+	for(int i = 1;i < strLen;i++)
+	{
+		while(k >= 0 && str[i] != str[k + 1])
+			k = next[k];
+
+		if (str[i] == str[k + 1])
+			k++;
+		next[i] = k;
+	}
+}
+
+int main()
+{
+	while(scanf("%s", str))
+	{
+        if (str[0] == '.')
+            break;
+		strLen = strlen(str);		
+		getNext();
+		if (strLen % (strLen - next[strLen - 1] - 1) == 0)
+			cout << strLen / (strLen - next[strLen - 1] - 1) << endl;
+		else
+			cout << 1 << endl;
+	}
+
+	return 0;
+}

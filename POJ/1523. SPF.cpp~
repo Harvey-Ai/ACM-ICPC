@@ -1,0 +1,114 @@
+#include <vector>
+#include <iostream>
+#include <stack>
+using namespace std;
+
+
+vector<int> visit;
+vector< vector<int> > graph;
+stack<int> tarjanSt;
+vector<int> inStack;
+vector<int> dnf, low;
+vector< vector<int> > res;
+int dfsTime;
+vector<int> component;
+
+void dfs(int nodeI, int num)
+{
+	if (visit[nodeI])
+		return;
+
+	visit[nodeI] = 1;
+	dnf[nodeI] = dfsTime++;
+	low[nodeI] = dnf[nodeI];
+	tarjanSt.push(nodeI);
+	inStack[nodeI] = tarjanSt.size() - 1;
+
+	for(int i = 0;i < graph[nodeI].size();i++)
+	{
+		if (!visit[graph[nodeI][i]])
+		{	
+			dfs(graph[nodeI][i], num);
+			if (dnf[nodeI] <= low[graph[nodeI][i]])
+				component[nodeI] ++;
+		
+            low[nodeI] = low[graph[nodeI][i]] < low[nodeI] ? low[graph[nodeI][i]] : low[nodeI];
+        }
+		else
+            low[nodeI] = dnf[graph[nodeI][i]] < low[nodeI] ? dnf[graph[nodeI][i]] : low[nodeI];
+	}
+}
+
+vector<vector<int> > &tarjan(vector< vector<int> > &matrix)
+{
+	int num = matrix.size();
+	graph = matrix;
+
+	visit.resize(num);
+	for(int i = 0;i < num;i++)
+		visit[i] = 0;
+
+	inStack.resize(num);
+	for(int i = 0;i < num;i++)
+		inStack[i] = -1;
+	dnf.resize(num);
+	low.resize(num);
+	res.clear();
+
+	component.resize(num);
+	component[0] = 0;
+	for(int i = 1;i < num;i++)
+		component[i] = 1;
+	for(int i = 0;i < num;i++)
+		if (!visit[i])
+		{
+			dfsTime = 0;
+			dfs(i, num);
+			break;
+		}
+
+	return res;
+}
+
+
+int main()
+{
+	int a, b;
+	int icase = 1;
+	while(cin >> a, a)
+	{
+		cin >> b;
+		
+		vector<vector<int> > matrix;
+		matrix.resize(1000);
+		a--, b--;
+		matrix[a].push_back(b);
+		matrix[b].push_back(a);
+		while(cin >> a, a)
+		{
+			cin >> b;
+			a--, b--;
+			matrix[a].push_back(b);
+			matrix[b].push_back(a);
+		}
+		
+		tarjan(matrix);
+
+		int flag = 0;
+		cout << "Network #" << icase++ << endl;
+		for(int i = 0;i < component.size();i++)
+		{
+			if (component[i] > 1)
+			{
+				cout << "  SPF node " << i + 1 << " leaves " << component[i] << " subnets" << endl;
+				flag = 1;
+			}
+		}
+		if (!flag)
+			cout << "  No SPF nodes" << endl;
+	
+        cout << endl;
+    }
+
+	return 0;
+}

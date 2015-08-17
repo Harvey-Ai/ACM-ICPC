@@ -1,0 +1,21 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int a;
+	int i;
+	char str[1000];
+	cin >> a;
+
+	i = 0;
+	while(a)
+	{
+		str[i++] = a % 8 + '0';
+		a /= 8;
+	}
+	while(i--)
+		cout << str[i];
+	cout << endl;
+	return 0;
+}

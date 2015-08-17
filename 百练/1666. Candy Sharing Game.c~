@@ -1,0 +1,37 @@
+#include <stdio.h>
+
+int arr[10005];
+int main()
+{
+	int n;
+	int i;
+	int ans, last;
+
+	while(scanf("%d", &n), n)
+	{
+	for(i = 0;i < n;i++)
+		scanf("%d", &arr[i]);
+
+	ans = 0;
+	while(1)
+	{
+		for(i = 0;i < n;i++)
+			arr[i] += arr[i] % 2;
+		for(i = 1;i < n;i++)
+			if (arr[i] != arr[i - 1])
+				break;
+		if (i >= n)
+			break;
+
+		ans++;
+		for(i = 0;i < n;i++)
+			arr[i] /= 2;
+		last = arr[n - 1];
+		for(i = n - 1;i > 0;i--)
+			arr[i] += arr[i - 1];
+		arr[0] += last;
+	}
+	printf("%d %d\n", ans, arr[0]);
+	}
+	return 0;
+}

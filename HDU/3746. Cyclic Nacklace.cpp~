@@ -1,0 +1,49 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+
+char str[100005];
+int next[100005];
+int strLen;
+
+void getNext()
+{
+	int k = -1;
+	next[0] = -1;
+
+	for(int i = 1;i < strLen;i++)
+	{
+		while(k >= 0 && str[i] != str[k + 1])
+			k = next[k];
+
+		if (str[i] == str[k + 1])
+			k++;
+		next[i] = k;
+	}
+}
+
+int main()
+{
+	int ncase;
+	cin >> ncase;
+
+	while(ncase--)
+	{
+		scanf("%s", str);
+		strLen = strlen(str);
+		getNext();
+
+		if (next[strLen - 1] == -1)
+			cout << strLen << endl;
+		else
+		{
+			int cirLen = strLen - next[strLen - 1] - 1;
+			if (strLen % cirLen)
+				cout << cirLen - (strLen % cirLen) << endl;
+			else
+				cout << 0 << endl;
+		}
+	}
+	return 0;
+}

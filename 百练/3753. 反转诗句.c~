@@ -1,0 +1,24 @@
+#include <iostream>
+#include <cstdio>
+using namespace std;
+
+int main()
+{
+	char str[100][100];
+	while(cin >> str[0])
+	{
+		int i = 1;
+		char c;
+		while(c = getchar(), c != '\n')
+			cin >> str[i++];
+
+		while(i--)
+		{
+			if (i == 0)
+				cout << str[i] << endl;
+			else
+				cout << str[i] << " ";
+		}
+	}
+	return 0;
+}

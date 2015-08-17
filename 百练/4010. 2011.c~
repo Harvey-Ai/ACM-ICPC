@@ -1,0 +1,55 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+int flag[1000000];
+char str[300];
+
+int main()
+{
+	unsigned int a;
+	unsigned int b;
+	int n;
+	int cl;
+	int i;
+
+	memset(flag, -1, sizeof(flag));
+	b = 1;
+	flag[1] = 0;
+	for(i = 1;;i++)
+	{
+		b *= 2011;
+		b %= 10000;
+		if (flag[b] == -1)
+			flag[b] = i;
+		else
+		{
+		//	cout << b << endl;
+			cl = i;
+		//	cout << i << endl;
+			break;
+		}
+	}
+//	cout << cl << endl;
+	cin >> n;
+	while(n--)
+	{
+		cin >> str;
+		if (strlen(str) > 3)
+			a = (str[(strlen(str) - 4)] - '0') * 1000 + (str[(strlen(str) - 3)] - '0') * 100 + (str[(strlen(str) - 2)] - '0') * 10 + (str[(strlen(str) - 1)] - '0');
+		else if (strlen(str) > 2)
+			a = (str[(strlen(str) - 3)] - '0') * 100 + (str[(strlen(str) - 2)] - '0') * 10 + (str[(strlen(str) - 1)] - '0');
+		else if (strlen(str) > 1)
+			a = (str[(strlen(str) - 2)] - '0') * 10 + (str[(strlen(str) - 1)] - '0');
+		else 
+			a = (str[(strlen(str) - 1)] - '0');
+
+		a %= cl;
+		for(i = 0;i < 10000;i++)
+			if (flag[i] == a)
+			{
+				cout << i << endl;
+				break;
+			}
+	}
+	return 0;
+}

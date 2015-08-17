@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+	char str1[104], str2[104];
+	int i, j;
+	int flag1[104], flag2[102];
+
+	while(scanf("%s %s", str1, str2) != EOF)
+	{
+		memset(flag1, 0, sizeof(flag1));
+		memset(flag2, 0, sizeof(flag2));
+		for(i = 0;str1[i] != '\0';i++)
+			flag1[str1[i] - 'A']++;
+
+		for(i = 0;str2[i] != '\0';i++)
+			flag2[str2[i] - 'A']++;
+
+		for(i = 0;i < 26;i++)
+		{
+			for(j = 0;j < 26;j++)
+				if (flag1[i] == flag2[j])
+				{
+					flag2[j] = -1;
+					break;
+				}
+			if (j >= 26)
+				break;
+		}
+		if (i < 26)
+			printf("NO\n");
+		else
+			printf("YES\n");
+	}
+	return 0;
+}

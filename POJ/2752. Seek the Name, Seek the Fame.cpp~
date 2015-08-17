@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+
+char str[400005];
+int strLen;
+int next[400005];
+
+void getNext()
+{
+	int k = -1;
+	next[0] = -1;
+
+	for(int i = 1;i < strLen;i++)
+	{
+		while(k >= 0 && str[i] != str[k + 1])
+			k = next[k];
+
+		if (str[i] == str[k + 1])
+			k++;
+		next[i] = k;
+	}
+}
+
+int main()
+{
+	while(scanf("%s", str) != EOF)
+	{
+		strLen = strlen(str);
+		getNext();
+
+		vector<int> ans;
+		int k = next[strLen - 1];
+		
+		while(k != -1)
+		{
+			ans.push_back(k + 1);
+			k = next[k];
+		}
+
+		for(int i = ans.size() - 1;i >= 0;i--)
+			cout << ans[i] << " ";
+		cout << strLen << endl;
+	}
+	return 0;
+}

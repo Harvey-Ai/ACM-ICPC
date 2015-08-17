@@ -1,0 +1,56 @@
+#include <stdio.h>
+#define N 105
+int ski[N][N];
+int longest[N][N];
+int m, n;
+int dfs(int a, int b)
+{
+	int temp, steps = 1;
+	if (longest[a][b] != 0)
+		return longest[a][b];
+	if (a + 1 < m && ski[a+1][b] < ski[a][b])
+	{
+		steps = dfs(a + 1, b) + 1;
+	}
+	if (a - 1 > -1 && ski[a-1][b] < ski[a][b])
+	{
+		temp = dfs(a - 1, b) + 1;
+		if (steps < temp)
+			steps = temp;
+	}
+	if (b + 1 < n && ski[a][b+1] < ski[a][b])
+	{
+		temp = dfs(a, b + 1) + 1;
+		if (steps < temp)
+			steps = temp;
+	}
+	if (b - 1 > -1 && ski[a][b-1] < ski[a][b])
+	{
+		temp = dfs(a, b - 1) + 1;
+		if (steps < temp)
+			steps = temp;
+	}
+	longest[a][b] = steps;
+	return steps;
+}
+int main()
+{
+	int i, j, temp, res;
+	scanf("%d %d", &m, &n);
+	for(i = 0;i < m;i++)
+		for(j = 0;j < n;j++)
+			scanf("%d", &ski[i][j]);
+
+	memset(longest, 0, sizeof(longest));
+
+	res = 1;
+	for(i = 0;i < m;i++)
+		for(j = 0;j < n;j++)
+		{
+			temp = dfs(i, j);
+			if (temp > res)
+				res = temp;
+		}
+	printf("%d\n", res);
+	return 0;
+}

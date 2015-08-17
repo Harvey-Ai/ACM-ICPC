@@ -1,0 +1,54 @@
+#include <iostream>
+#include <map>
+#include <cstdio>
+using namespace std;
+
+int main()
+{
+	map<string, string> wordConvert;
+	wordConvert.clear();
+
+	string res[105];
+	int ncase;
+	scanf("%d", &ncase);
+
+	int m, n;
+	for(int i = 0;i < ncase;i++)
+	{
+		char str1[105], str2[105];
+		scanf("%d %d", &n, &m);
+		getchar();
+		wordConvert.clear();
+
+		for(int j = 0;j < m;j++)
+		{
+			scanf("%s %s", str1, str2);
+			wordConvert[string(str1)] = string(str2);
+			getchar();
+		}
+		printf("Case #%d:", i + 1);
+		
+		int wordLen;
+		for(wordLen = 0;;)
+		{
+			scanf("%s", str1);
+			res[wordLen++] = string(str1);
+			if (getchar() == '\n')
+				break;
+			//if (wordConvert.find(string(str1)) != wordConvert.end())
+			//	printf(" %s", wordConvert[string(str1)].c_str());
+			//else
+			//	printf(" %s", str1);
+		}
+		for(int j = 0;j < n - 1;j++)
+			for(int k = 0;k < wordLen;k++)
+			{
+				if (wordConvert.find(res[k]) != wordConvert.end())
+					res[k] = wordConvert[res[k]];
+			}
+		for(int k = 0;k < wordLen;k++)
+			printf(" %s", res[k].c_str());
+		putchar('\n');
+	}
+	return 0;
+}

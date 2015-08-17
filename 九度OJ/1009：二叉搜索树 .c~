@@ -1,0 +1,76 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int gen(char *str, int *arr)
+{
+	int temp[1100];
+	int i, j;
+	for(i = 0;i < 1100;i++)
+		temp[i] = -1;
+	int len = strlen(str);
+//	cout << len << endl;
+
+	temp[0] = str[0] - '0';
+	
+	for(i = 1;i < len;i++)
+	{
+		int p = 0;
+		while(temp[p] != -1)
+		{
+			if (temp[p] > str[i] - '0')
+				p = p * 2 + 2;
+			else
+				p = p * 2 + 1;
+		}
+	//	cout << p << endl;
+		temp[p] = str[i] - '0';
+	}
+	for(j = 0, i = 0;j < 1100;j++)
+		if (temp[j] != -1)
+			arr[i++] = temp[j];
+//	cout << i << endl;
+}
+
+int main()
+{
+	int i, j, n;
+	int len1, len2;
+	char str[1000];
+	int arr[1000], arr1[1000];
+
+	while(cin >> n, n)
+	{
+	//	getchar();
+		cin >> str;
+		len1 = strlen(str);
+	//	cout << len1 << endl;
+		gen(str, arr);
+		
+		//cout << len1 << endl;
+		for(int i = 0;i < n;i++)
+		{
+			cin >> str;
+			
+//		cout << len1 << endl;
+			gen(str, arr1);
+			
+//		cout << len1 << endl;
+			len2 = strlen(str);
+			if (len1 != len2)
+			{
+//				cout << len1 << " " << len2 << endl;
+				cout << "NO" << endl;
+				continue;
+			}
+			for(j = 0;j < len1;j++)
+				if (arr[j] != arr1[j])
+					break;
+			if (j < len1)
+				cout << "NO" << endl;
+			else
+				cout << "YES" << endl;
+		}
+	}
+	return 0;
+}

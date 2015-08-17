@@ -1,0 +1,47 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+
+
+int solve(char *str)
+{
+	int p1 = 0, p2 = 1;
+	int k = 0;
+	int len = strlen(str);
+
+	while(p1 < len && p2 < len)
+	{
+		k = 0;
+		while(str[(p1 + k) % len] == str[(p2 + k) % len] && k < len)
+			k++;
+		
+		int index1 = (p1 + k) % len;
+		int index2 = (p2 + k) % len;
+		if (str[index1] < str[index2])
+			p2 = p2 + k + 1;
+		else if (str[index1] > str[index2])
+			p1 = p1 + k + 1;
+		else
+			break;
+
+		if (p1 == p2)
+			p2++;
+	}
+	return min(p1, p2) + 1;
+}
+
+int main()
+{
+	int n;
+	cin >> n;
+	char arr[10000];
+
+	for(int i = 0;i < n;i++)
+	{
+		scanf("%s", arr);
+		cout << solve(arr) << endl;
+	}
+
+	return 0;
+}

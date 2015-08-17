@@ -1,0 +1,11 @@
+Exception: STATUS_ACCESS_VIOLATION at eip=00401573
+eax=00233000 ebx=00000000 ecx=0000656F edx=00006570 esi=611001A0 edi=004019A0
+ebp=0022CCC8 esp=0022CA50 program=F:\其他OJ及比赛\GCD2011\Round2\a.exe, pid 3644, thread main
+cs=001B ds=0023 es=0023 fs=003B gs=0000 ss=0023
+Stack trace:
+Frame     Function  Args
+0022CCC8  00401573  (00000001, 007A01D8, 007A0090, 61010F8C)
+0022CD98  61006198  (00000000, 0022CDD0, 61005510, 0022CDD0)
+61005510  61004416  (0000009C, A02404C7, E8611001, FFFFFF48)
+ 375042 [main] a 3644 _cygtls::handle_exceptions: Exception: STATUS_ACCESS_VIOLATION
+ 386427 [main] a 3644 _cygtls::handle_exceptions: Error while dumping state (probably corrupted stack)

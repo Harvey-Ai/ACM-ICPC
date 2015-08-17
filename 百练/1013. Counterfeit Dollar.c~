@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <string.h>
+#define lll "light"
+#define www "heavy"
+
+struct weigh
+{
+	char a[30], b[30];
+	int bl;
+}ww[3];
+
+int main()
+{
+	int i, j;
+	int wh, left, right;
+	int ncase;
+	char ans;
+	char bl[30];
+	scanf("%d", &ncase);
+
+	while(ncase--)
+	{
+		for(i = 0;i < 3;i++)
+		{
+			scanf("%s %s %s", ww[i].a, ww[i].b, bl);
+			if (strcmp(bl, "even") == 0)
+				ww[i].bl = 0;
+			else if (strcmp(bl, "up") == 0)
+				ww[i].bl = 1;
+			else
+				ww[i].bl = -1;
+		}
+
+		for(ans = 'A';ans <= 'L';ans++)
+		{
+			for(i = 0;i < 3;i++)
+			{
+				left = right = 0;
+				for(j = 0;ww[i].a[j] != '\0';j++)
+					if (ww[i].a[j] == ans)
+						left++;
+				for(j = 0;ww[i].b[j] != '\0';j++)
+					if (ww[i].b[j] == ans)
+						right++;
+				if ((left - right) != ww[i].bl)
+					break;
+			}
+			if (i >= 3)
+			{
+				wh = 1;
+				break;
+			}
+
+			for(i = 0;i < 3;i++)
+			{
+				left = right = 0;
+				for(j = 0;ww[i].a[j] != '\0';j++)
+					if (ww[i].a[j] == ans)
+						left--;
+				for(j = 0;ww[i].b[j] != '\0';j++)
+					if (ww[i].b[j] == ans)
+						right--;
+				if ((left - right) != ww[i].bl)
+					break;
+			}
+	
+			if (i >= 3)
+			{
+				wh = -1;
+				break;
+			}
+			
+		}
+		if (wh == -1)
+			printf("%c is the counterfeit coin and it is %s.\n", ans, lll);
+		else
+			printf("%c is the counterfeit coin and it is %s.\n", ans, www);
+	}
+	return 0;
+}

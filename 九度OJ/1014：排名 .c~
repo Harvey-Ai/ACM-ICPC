@@ -1,0 +1,68 @@
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <cstdio>
+using namespace std;
+
+struct tt
+{
+	char name[100];
+	int sum;
+};
+
+bool cmp(const struct tt a, const struct tt b)
+{
+	if (a.sum > b.sum)
+		return 1;
+	else if (a.sum < b.sum)
+		return 0;
+	else if (strcmp(a.name, b.name) < 0)
+		return 1;
+	else
+		return 0;
+}
+
+int main()
+{
+	struct tt p[1005], p1[1005];
+	int arr[20];
+	int i, j;
+	int m, n;
+	int line;
+	int cnt;
+	int index;
+
+	while(cin >> n, n)
+	{
+	//	cin >> m >> line;
+		scanf("%d %d", &m, &line);
+		for(i = 1;i <= m;i++)
+			scanf("%d", &arr[i]);
+
+		for(i = 0;i < n;i++)
+		{
+			scanf("%s", p[i].name);
+		//	cin >> p[i].name;
+			p[i].sum = 0;
+		//	cin >> cnt;
+			scanf("%d", &cnt);
+			while(cnt--)
+			{
+				scanf("%d", &index);
+			//	cin >> index;
+				p[i].sum += arr[index];
+			}
+		}
+
+		for(i = 0, j = 0;i < n;i++)
+			if (p[i].sum >= line)
+				p1[j++] = p[i];
+
+		sort(&p1[0], &p1[j], cmp);
+		
+		printf("%d\n", j);
+		for(i = 0;i < j;i++)
+			printf("%s %d\n", p1[i].name, p1[i].sum);
+	}
+	return 0;
+}

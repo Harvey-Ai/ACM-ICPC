@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct student
+{
+	char num[30];
+	int sc;
+	int ind;
+}ss[505];
+
+int cmp(const void *a, const void *b)
+{
+	struct student *aa = (struct student *)a;
+	struct student *bb = (struct student *)b;
+	if (bb->sc != aa->sc)
+		return bb->sc - aa->sc;
+	else
+		return aa->ind - bb->ind;
+}
+
+int main()
+{
+	int n;
+	int i;
+	scanf("%d", &n);
+	for(i = 0;i < n;i++)
+	{
+		scanf("%s %d", ss[i].num, &ss[i].sc);
+		ss[i].ind = i;
+	}
+	qsort(ss, n, sizeof(ss[0]), cmp);
+	for(i = 0;i < n;i++)
+		printf("%s\n", ss[i].num);
+	return 0;
+}

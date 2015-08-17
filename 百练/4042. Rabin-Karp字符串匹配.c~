@@ -1,0 +1,101 @@
+/*
+#include <iostream>
+using namespace std;
+
+int s, q;
+char str[200];
+char temp[200];
+
+void dfs(int pos, int sum, int ppos)
+{
+//	cout << pos << " " << ppos << " " << sum << endl;
+	if (ppos == s && sum == q)
+	{
+		temp[s] = '\0';
+		cout << temp << endl;
+		return;
+	}
+	if (str[pos] == '\0')
+		return;
+	if (ppos > s || (ppos == s && sum > q))
+	{
+	//	cout << ppos << " " << sum << endl;
+		return;
+	}
+	if (sum > q || (sum == q && ppos < s))
+	{
+	//	cout << ppos << " " << sum << endl;
+		return;
+	}
+	temp[ppos] = str[pos];
+	dfs(pos + 1, sum + str[pos] - 'a' + 1, ppos + 1);
+	//if (pos == 0)
+	//cout << pos << " " << sum << endl;
+	dfs(pos + 1, sum, ppos);
+	//	if (pos == 0)
+	//cout << pos << " " << sum << endl;
+}
+
+int main()
+{
+	int ncase;
+	cin >> ncase;
+
+	while(ncase--)
+	{
+		cin >> str;
+		cin >> s >> q;
+		dfs(0, 0, 0);
+	}
+	return 0;
+}
+*/
+
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int ncase;
+	int s, q;
+	int cnt;
+	int i;
+	char str[200];
+	char res[200][200];
+	char *posB, *posE, *p;
+	cin >> ncase;
+
+	while(ncase--)
+	{
+		cin >> str;
+		cin >> s >> q;
+		posB = &str[0];posE = &str[s - 1];
+		int sum = 0;
+		cnt = 0;
+		for(p = posB;p <= posE;p++)
+			sum += *p - 'a' + 1;
+		if (sum == q)
+		{
+			for(i = 0, p = posB;p <= posE;p++,i++)
+				res[cnt][i] = *p;
+			res[cnt++][i] = '\0';
+		}
+		posB++;posE++;
+		for(;*posE != '\0';posE++, posB++)
+		{
+			sum -= *(posB - 1) - 'a' + 1;
+			sum += *posE - 'a' + 1;
+			//cout << *(posB - 1) << " " << *posE << " " << sum << endl;
+			if (sum == q)
+			{	
+				for(i = 0, p = posB;p <= posE;p++,i++)
+					res[cnt][i] = *p;
+				res[cnt++][i] = '\0';
+			}
+		}
+		cout << cnt << endl;
+		for(i = 0;i < cnt;i++)
+			cout << res[i] << endl;
+	}
+	return 0;
+}

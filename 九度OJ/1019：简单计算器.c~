@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+
+double dfs(int bg, int end)
+{
+	double num = 0;
+
+	pos = bg;
+	double res = readNum(pos);
+	while(pos != end)
+	{
+		op = ss[pos];
+		num = readNum(pos);
+
+}
+
+int main()
+{
+	char str[1000], ss[1000];
+	while(cin.getline(str, 1000, '\n'))
+	{
+		if (strcmp(str, "0") == 0)
+			break;
+
+		for(i = 0, j = 0;str[i] != '\0';i++)
+			if (str[i] != ' ')
+				ss[j++] = str[i];
+
+		double res = dfs(0, j - 1);
+		cout << res << endl;
+	}
+	return 0;
+}

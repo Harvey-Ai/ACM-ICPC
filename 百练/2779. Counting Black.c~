@@ -1,0 +1,43 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int color[105][105];
+void paint(int x1, int y1, int x2, int y2, int cl)
+{
+	int i, j;
+	for(i = x1;i <= x2;i++)
+		for(j = y1;j <= y2;j++)
+			color[i][j] = cl;
+}
+
+int main()
+{
+	int i, j, n;
+	int x, y, l;
+	int cnt;
+	char command[1005];
+	cin >> n;
+	for(i = 0;i < 101;i++)
+		for(j = 0;j < 101;j++)
+			color[i][j] = 0;
+	while(n--)
+	{
+		cin >> command;
+		cin >> x >> y >> l;
+		if (strcmp(command, "BLACK") == 0)
+			paint(x, y, x + l -1, y + l - 1, 1);
+		if (strcmp(command, "WHITE") == 0)
+			paint(x, y, x + l -1, y + l - 1, 0);
+		if (strcmp(command, "TEST") == 0)
+		{
+			cnt = 0;
+			for(i = x;i < l + x;i++)
+				for(j = y;j < l + y;j++)
+					if (color[i][j] == 1)
+						cnt++;
+			cout << cnt << endl;
+		}
+	}
+	return 0;
+}

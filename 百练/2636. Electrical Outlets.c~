@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int ncase;
+	int res, a;
+	cin >> ncase;
+	while(ncase--)
+	{
+		int n;
+		cin >> n;
+		res = -n + 1;
+		while(n--)
+		{
+			cin >> a;
+			res += a;
+		}
+		cout << res << endl;
+	}
+	return 0;
+}

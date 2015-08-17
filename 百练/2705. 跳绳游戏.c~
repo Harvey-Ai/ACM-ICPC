@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	int m;
+	int i, n;
+	int arr[1000];
+	cin >> m;
+
+	while(m--)
+	{
+		cin >> n;
+		for(i = 0;i < n;i++)
+			cin >> arr[i];
+
+		int res = 0;
+		int sec = 0;
+
+		for(i = 0;i < n;i++)
+		{
+			sec = i * 3 + arr[i];
+			if (sec >= 60)
+			{
+				res = arr[i] - (sec - 60);
+				sec = 60;
+				break;
+			}
+			if (sec + 3 >= 60)
+			{
+				res = arr[i];
+				sec = 60;
+				break;
+			}
+		}
+	//	cout << sec << endl;
+		if (n * 3 + arr[n - 1] < 60)
+			res = arr[n - 1] + (60 - n * 3 - arr[n - 1]);
+		cout << res << endl;
+	}
+	return 0;
+}
