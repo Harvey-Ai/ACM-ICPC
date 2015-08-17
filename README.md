@@ -2,4 +2,4 @@
 ufo008ahw' contest Code
 
 
-All Rights Reverse
+All Rights Reserved
