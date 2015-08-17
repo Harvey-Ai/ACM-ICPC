@@ -1,5 +1,5 @@
 # ACM-ICPC
-ufo008ahw' contest Code
+ufo008ahw's Contest Code.
 
 
-All Rights Reserved
+All Rights Reserved.
