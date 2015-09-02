@@ -1,5 +1,6 @@
 # ACM-ICPC
-ufo008ahw's Contest Code.
-Work hard, have fun.
+
+Harvey-Ai's ACM-ICPC Contest Code, for fun and improvment.
+
 
 All Rights Reserved.
