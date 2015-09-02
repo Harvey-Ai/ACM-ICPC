@@ -1,4 +1,4 @@
-SmallProject
+ACM-ICPC
 
 Version: 1.0
 Release date: Aug 26, 2014
